@@ -30,6 +30,7 @@ class MyDoorDrawer extends StatefulWidget {
 class _MyDoorDrawerState extends State<MyDoorDrawer>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
+  CurvedAnimation animation;
 
   @override
   void initState() {
@@ -38,6 +39,8 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
       vsync: this,
       duration: Duration(milliseconds: 500),
     );
+    animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+    _controller.forward();
   }
 
   @override
@@ -67,12 +70,12 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
                 );
               }),
               AnimatedBuilder(
-                animation: _controller,
+                animation: animation,
                 builder: (BuildContext context, Widget child) {
                   return Transform(
                     transform: Matrix4.identity()
                       ..setEntry(3, 2, 0.001)
-                      ..rotateY((90 * _controller.value) * (3.14 / 180)),
+                      ..rotateY((90 * animation.value) * (3.14 / 180)),
                     origin: Offset(width / 2, 0),
                     alignment: FractionalOffset.center,
                     child: Container(
@@ -83,10 +86,28 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Menu',style: drawer_text_Heading,),
-                          MenuItem(doorProvider: doorProvider, controller: _controller,itemName: 'Home',itemNumber: 1,),
-                          MenuItem(doorProvider: doorProvider, controller: _controller,itemName: 'Item 1',itemNumber: 2,),
-                          MenuItem(doorProvider: doorProvider, controller: _controller,itemName: 'Item 2',itemNumber: 3,),
+                          Text(
+                            'Menu',
+                            style: drawer_text_Heading,
+                          ),
+                          MenuItem(
+                            doorProvider: doorProvider,
+                            controller: _controller,
+                            itemName: 'Home',
+                            itemNumber: 1,
+                          ),
+                          MenuItem(
+                            doorProvider: doorProvider,
+                            controller: _controller,
+                            itemName: 'Item 1',
+                            itemNumber: 2,
+                          ),
+                          MenuItem(
+                            doorProvider: doorProvider,
+                            controller: _controller,
+                            itemName: 'Item 2',
+                            itemNumber: 3,
+                          ),
                         ],
                       ),
                     ),
@@ -126,5 +147,3 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
     );
   }
 }
-
-
