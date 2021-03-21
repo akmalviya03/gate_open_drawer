@@ -4,9 +4,8 @@ import 'MenuItem.dart';
 import 'constants.dart';
 import 'doorDrawerProvider.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -61,6 +60,7 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
         child: Center(
           child: Stack(
             children: [
+
               Consumer<DoorDrawer>(builder: (context, doorDrawer, child) {
                 return Container(
                   padding: EdgeInsets.all(16),
@@ -77,9 +77,12 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
                 builder: (BuildContext context, Widget child) {
                   return Transform(
                     transform: Matrix4.identity()
+                    //Perspective
                       ..setEntry(3, 2, 0.001)
                       //initially Value is set to 90 to keep the drawer Close.
+                    //Radians
                       ..rotateY((90 * animation.value) * (3.14 / 180)),
+                    //offset(x,y)
                     origin: Offset(width / 2, 0),
                     alignment: FractionalOffset.center,
                     child: Container(
@@ -123,10 +126,12 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
               InkWell(
                 onTap: () {
                   if (doorProvider.drawerClose() == true) {
+                    //Reverse is used to show menu.
                     _controller.reverse();
                     doorProvider.setDrawerClose(false);
                     print('Drawer Open');
                   } else {
+                    //Forward Animation.
                     _controller.forward();
                     doorProvider.setDrawerClose(true);
                     print('Drawer Close');
