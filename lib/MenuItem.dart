@@ -18,7 +18,7 @@ class MenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text(
         itemName,
         style: drawer_text,
@@ -26,6 +26,7 @@ class MenuItem extends StatelessWidget {
       onPressed: () {
         doorProvider.setWidget(itemNumber);
         controller.forward();
+        print('Drawer Close By Menu Item \"$itemName\"');
       },
     );
   }

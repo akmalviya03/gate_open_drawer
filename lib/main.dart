@@ -40,7 +40,8 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
       duration: Duration(milliseconds: 500),
     );
     animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
-    _controller.forward();
+    //Forward means drawer is closing.
+    _controller.forward(from: 1);
   }
 
   @override
@@ -69,12 +70,15 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
                   child: doorDrawer.getWidget(),
                 );
               }),
+
+              //Menu
               AnimatedBuilder(
                 animation: animation,
                 builder: (BuildContext context, Widget child) {
                   return Transform(
                     transform: Matrix4.identity()
                       ..setEntry(3, 2, 0.001)
+                      //initially Value is set to 90 to keep the drawer Close.
                       ..rotateY((90 * animation.value) * (3.14 / 180)),
                     origin: Offset(width / 2, 0),
                     alignment: FractionalOffset.center,
@@ -114,14 +118,18 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
                   );
                 },
               ),
+
+              //Animated Hamburger Menu Icon
               InkWell(
                 onTap: () {
-                  if (doorProvider.getDrawerValue() == true) {
+                  if (doorProvider.drawerClose() == true) {
                     _controller.reverse();
-                    doorProvider.setDrawerValue(false);
+                    doorProvider.setDrawerClose(false);
+                    print('Drawer Open');
                   } else {
                     _controller.forward();
-                    doorProvider.setDrawerValue(true);
+                    doorProvider.setDrawerClose(true);
+                    print('Drawer Close');
                   }
                 },
                 child: Consumer<DoorDrawer>(
@@ -131,7 +139,7 @@ class _MyDoorDrawerState extends State<MyDoorDrawer>
                       child: AnimatedIcon(
                         icon: AnimatedIcons.arrow_menu,
                         progress: _controller,
-                        color: doorDrawer.getDrawerValue() == true
+                        color: doorDrawer.drawerClose() == true
                             ? Colors.black
                             : Colors.white,
                         semanticLabel: 'Show Or Hide menu',

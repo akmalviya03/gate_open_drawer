@@ -7,7 +7,7 @@ import 'Item2.dart';
 
 class DoorDrawer extends ChangeNotifier {
   Widget selectedWidget = Home();
-  bool showDrawerMenu = true;
+  bool drawerCloseBool = true;
   Widget getWidget(){
     return selectedWidget;
   }
@@ -29,15 +29,15 @@ class DoorDrawer extends ChangeNotifier {
       }
       break;
     }
-    setDrawerValue(true);
+    setDrawerClose(true);
     notifyListeners();
   }
 
-  bool getDrawerValue(){
-    return showDrawerMenu;
+  bool drawerClose(){
+    return drawerCloseBool;
   }
-  void setDrawerValue(bool value){
-    showDrawerMenu = value;
+  void setDrawerClose(bool value){
+    drawerCloseBool = value;
     notifyListeners();
   }
 }
